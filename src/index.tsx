@@ -1,16 +1,27 @@
 /* eslint-disable prettier/prettier */
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import { store } from "./redux/store";
+import { store, persistor } from "./redux/store";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Routes } from "./routes/routes";
+import { PersistGate } from "redux-persist/integration/react";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    children: Routes,
+  },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router}></RouterProvider>
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
 );
